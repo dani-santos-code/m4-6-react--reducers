@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from "react";
 import GlobalStyles from "./GlobalStyles";
 
 import { SeatContext } from "./SeatContext";
-import TickeWidget from "./TicketWidget";
 import TicketWidget from "./TicketWidget";
 
 function App() {
