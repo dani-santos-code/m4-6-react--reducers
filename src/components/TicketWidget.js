@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { getRowName, getSeatNum } from "../helpers";
 import { range } from "../utils";
 
+import { SeatContext } from "./SeatContext";
+
 const TicketWidget = () => {
   // TODO: use values from Context
-  const numOfRows = 6;
-  const seatsPerRow = 6;
+  // const numOfRows = 6;
+  // const seatsPerRow = 6;
+
+  const {
+    state: { numOfRows, seatsPerRow }
+  } = useContext(SeatContext);
 
   // TODO: implement the loading spinner <CircularProgress />
   // with the hasLoaded flag
