@@ -20,7 +20,6 @@ const TicketWidget = () => {
 
   // TODO: implement the loading spinner <CircularProgress />
   // with the hasLoaded flag
-
   return (
     <Wrapper>
       {hasLoaded ? (
@@ -34,7 +33,6 @@ const TicketWidget = () => {
                 const isBooked = seats[seatId].isBooked;
                 return (
                   <SeatWrapper key={seatId}>
-                    {/* TODO: Render the actual <Seat /> */}
                     <Tippy
                       content={
                         <TippySpan>
@@ -52,7 +50,7 @@ const TicketWidget = () => {
           );
         })
       ) : (
-        <CircularProgress />
+        <StyledCircularProgress />
       )}
     </Wrapper>
   );
@@ -66,6 +64,14 @@ const Wrapper = styled.div`
   color: black;
   margin: 20px auto;
   max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const StyledCircularProgress = styled(CircularProgress)`
+  align-self: center;
 `;
 
 const StyledImg = styled.img`
@@ -74,6 +80,7 @@ const StyledImg = styled.img`
 const Row = styled.div`
   display: flex;
   position: relative;
+  justify-content: center;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid #ddd;
@@ -86,6 +93,8 @@ const TippySpan = styled.span`
 `;
 const RowLabel = styled.div`
   font-weight: bold;
+  align-self: center;
+  margin-right: 20px;
 `;
 
 const SeatWrapper = styled.div`
