@@ -14,7 +14,7 @@ const TicketWidget = () => {
   // const seatsPerRow = 6;
 
   const {
-    state: { hasLoaded, numOfRows, seatsPerRow }
+    state: { hasLoaded, numOfRows, seatsPerRow, seats }
   } = useContext(SeatContext);
 
   // TODO: implement the loading spinner <CircularProgress />
@@ -28,12 +28,14 @@ const TicketWidget = () => {
           return (
             <Row key={rowIndex}>
               <RowLabel>Row {rowName}</RowLabel>
-              {range(seatsPerRow).map((seat, seatIndex) => {
+              {range(seatsPerRow).map(seatIndex => {
                 const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
+                const isBooked = seats[seatId].isBooked;
+
                 return (
                   <SeatWrapper key={seatId}>
                     {/* TODO: Render the actual <Seat /> */}
-                    <img src={seatImg} alt="" />
+                    <StyledImg src={seatImg} alt="" isBooked={isBooked} />
                   </SeatWrapper>
                 );
               })}
@@ -54,6 +56,9 @@ const Wrapper = styled.div`
   padding: 8px;
 `;
 
+const StyledImg = styled.img`
+  filter: ${props => (props.isBooked ? "grayscale(100%)" : "grayscale(0%)")};
+`;
 const Row = styled.div`
   display: flex;
   position: relative;
