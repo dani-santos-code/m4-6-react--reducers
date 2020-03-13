@@ -4,22 +4,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { getRowName, getSeatNum } from "../helpers";
 import { range } from "../utils";
-import seatImg from "../assets/seat-available.svg";
-import Tippy from "@tippy.js/react";
-
+import Seat from "./Seat";
 import { SeatContext } from "./SeatContext";
 
 const TicketWidget = () => {
-  // TODO: use values from Context
-  // const numOfRows = 6;
-  // const seatsPerRow = 6;
-
   const {
-    state: { hasLoaded, numOfRows, seatsPerRow, seats }
+    state: { hasLoaded, numOfRows, seatsPerRow }
   } = useContext(SeatContext);
-
-  // TODO: implement the loading spinner <CircularProgress />
-  // with the hasLoaded flag
   return (
     <Wrapper>
       {hasLoaded ? (
@@ -29,20 +20,11 @@ const TicketWidget = () => {
             <Row key={rowIndex}>
               <RowLabel>Row {rowName}</RowLabel>
               {range(seatsPerRow).map(seatIndex => {
-                const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
-                const isBooked = seats[seatId].isBooked;
+                const seatNum = getSeatNum(seatIndex);
+                const seatId = `${rowName}-${seatNum}`;
                 return (
                   <SeatWrapper key={seatId}>
-                    <Tippy
-                      content={
-                        <TippySpan>
-                          Row {rowName}, Seat {getSeatNum(seatIndex)} ${""}
-                          {seats[seatId].price}
-                        </TippySpan>
-                      }
-                    >
-                      <StyledImg src={seatImg} alt="" isBooked={isBooked} />
-                    </Tippy>
+                    <Seat seatId={seatId} rowName={rowName} seatNum={seatNum} />
                   </SeatWrapper>
                 );
               })}
@@ -74,9 +56,6 @@ const StyledCircularProgress = styled(CircularProgress)`
   align-self: center;
 `;
 
-const StyledImg = styled.img`
-  filter: ${props => (props.isBooked ? "grayscale(100%)" : "grayscale(0%)")};
-`;
 const Row = styled.div`
   display: flex;
   position: relative;
@@ -86,11 +65,7 @@ const Row = styled.div`
     border-bottom: 1px solid #ddd;
   }
 `;
-const TippySpan = styled.span`
-  background-color: #3e3b3b;
-  color: white;
-  width: 100px;
-`;
+
 const RowLabel = styled.div`
   font-weight: bold;
   align-self: center;
