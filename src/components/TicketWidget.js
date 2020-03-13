@@ -14,7 +14,7 @@ const TicketWidget = () => {
   // const seatsPerRow = 6;
 
   const {
-    state: { numOfRows, seatsPerRow }
+    state: { hasLoaded, numOfRows, seatsPerRow }
   } = useContext(SeatContext);
 
   // TODO: implement the loading spinner <CircularProgress />
@@ -22,23 +22,27 @@ const TicketWidget = () => {
 
   return (
     <Wrapper>
-      {range(numOfRows).map(rowIndex => {
-        const rowName = getRowName(rowIndex);
-        return (
-          <Row key={rowIndex}>
-            <RowLabel>Row {rowName}</RowLabel>
-            {range(seatsPerRow).map((seat, seatIndex) => {
-              const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
-              return (
-                <SeatWrapper key={seatId}>
-                  {/* TODO: Render the actual <Seat /> */}
-                  <img src={seatImg} alt="" />
-                </SeatWrapper>
-              );
-            })}
-          </Row>
-        );
-      })}
+      {hasLoaded ? (
+        range(numOfRows).map(rowIndex => {
+          const rowName = getRowName(rowIndex);
+          return (
+            <Row key={rowIndex}>
+              <RowLabel>Row {rowName}</RowLabel>
+              {range(seatsPerRow).map((seat, seatIndex) => {
+                const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
+                return (
+                  <SeatWrapper key={seatId}>
+                    {/* TODO: Render the actual <Seat /> */}
+                    <img src={seatImg} alt="" />
+                  </SeatWrapper>
+                );
+              })}
+            </Row>
+          );
+        })
+      ) : (
+        <CircularProgress />
+      )}
     </Wrapper>
   );
 };
