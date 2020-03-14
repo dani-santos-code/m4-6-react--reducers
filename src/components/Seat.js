@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { SeatContext } from "./SeatContext";
+import { BookingContext } from "./BookingContext";
 import seatImg from "../assets/seat-available.svg";
 import Tippy from "@tippy.js/react";
 
@@ -28,6 +29,17 @@ const Seat = ({ seatId, rowName, seatNum }) => {
   } = useContext(SeatContext);
   const isBooked = seats[seatId].isBooked;
 
+  const {
+    actions: { beginBookingProcess }
+  } = useContext(BookingContext);
+
+  const handleClick = () => {
+    beginBookingProcess({
+      seatNum: `${rowName}-${seatNum}`,
+      price: seats[seatId].price
+    });
+  };
+
   return (
     <Tippy
       delay={0}
@@ -39,7 +51,13 @@ const Seat = ({ seatId, rowName, seatNum }) => {
         </TippySpan>
       }
     >
-      <SeatButton>
+      <SeatButton
+        onClick={() => {
+          if (!isBooked) {
+            handleClick();
+          }
+        }}
+      >
         <StyledImg src={seatImg} alt="" isBooked={isBooked} />
       </SeatButton>
     </Tippy>
