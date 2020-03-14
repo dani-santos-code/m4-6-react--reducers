@@ -17,6 +17,8 @@ const reducer = (state, action) => {
         ...state,
         status: "seat-selected",
         selectedSeatId: action.seatNum,
+        row: action.seatNum[0],
+        seatNum: action.seatNum.slice(2),
         price: action.price
       };
     case "cancel-booking-process":
