@@ -15,6 +15,13 @@ const TippySpan = styled.span`
   width: 100px;
 `;
 
+const SeatButton = styled.button`
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  background-color: #eee;
+  border: none;
+`;
 const Seat = ({ seatId, rowName, seatNum }) => {
   const {
     state: { seats }
@@ -22,18 +29,20 @@ const Seat = ({ seatId, rowName, seatNum }) => {
   const isBooked = seats[seatId].isBooked;
 
   return (
-    <>
-      <Tippy
-        content={
-          <TippySpan>
-            Row {rowName}, Seat {seatNum} ${""}
-            {seats[seatId].price}
-          </TippySpan>
-        }
-      >
+    <Tippy
+      delay={0}
+      duration={0}
+      content={
+        <TippySpan>
+          Row {rowName}, Seat {seatNum} ${""}
+          {seats[seatId].price}
+        </TippySpan>
+      }
+    >
+      <SeatButton>
         <StyledImg src={seatImg} alt="" isBooked={isBooked} />
-      </Tippy>
-    </>
+      </SeatButton>
+    </Tippy>
   );
 };
 
