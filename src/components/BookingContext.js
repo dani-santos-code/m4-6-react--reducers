@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  console.log(action);
+  //   console.log(action);
   switch (action.type) {
     case "begin-booking-process":
       return {
@@ -18,6 +18,13 @@ const reducer = (state, action) => {
         status: "seat-selected",
         selectedSeatId: action.seatNum,
         price: action.price
+      };
+    case "cancel-booking-process":
+      return {
+        status: "idle",
+        error: null,
+        selectedSeatId: null,
+        price: null
       };
     default:
       throw new Error(`Unrecognized action ${action.type}`);
@@ -34,12 +41,17 @@ export const BookingProvider = ({ children }) => {
     });
   };
 
+  const cancelBookingProcess = () => {
+    dispatch({ type: "cancel-booking-process" });
+  };
+
   return (
     <BookingContext.Provider
       value={{
         state,
         actions: {
-          beginBookingProcess
+          beginBookingProcess,
+          cancelBookingProcess
         }
       }}
     >
