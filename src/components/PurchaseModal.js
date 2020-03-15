@@ -17,7 +17,7 @@ const StyledTableContainer = styled(TableContainer)``;
 
 const PurchaseModal = () => {
   const {
-    state: { selectedSeatId, row, price, seatNum },
+    state: { selectedSeatId, row, price, seatNum, status },
     actions: {
       cancelBookingProcess,
       purchaseTicketRequest,
@@ -60,6 +60,7 @@ const PurchaseModal = () => {
   return (
     <>
       <Dialog open={selectedSeatId !== null} onClose={cancelBookingProcess}>
+        {console.log(status)}
         <DialogContentText style={{ padding: "15px", color: "black" }}>
           You're purchasing <b>1</b> ticket for the price of ${price}
         </DialogContentText>
