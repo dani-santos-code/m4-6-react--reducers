@@ -18,12 +18,45 @@ const StyledTableContainer = styled(TableContainer)``;
 const PurchaseModal = () => {
   const {
     state: { selectedSeatId, row, price, seatNum },
-    actions: { cancelBookingProcess }
+    actions: {
+      cancelBookingProcess,
+      purchaseTicketRequest,
+      purchaseTicketSuccess,
+      purchaseTicketFailure
+    }
   } = useContext(BookingContext);
 
   const [creditCard, setCreditCard] = useState("");
   const [expiration, setExpiration] = useState("");
 
+  const handleFormSubmission = e => {
+    e.preventDefault();
+    purchaseTicketRequest();
+
+    fetch("/api/book-seat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        creditCard,
+        expiration,
+        seatId: selectedSeatId
+      })
+    })
+      .then(res => res.json())
+      .then(({ success, message }) => {
+        if (success) {
+          purchaseTicketSuccess();
+        } else {
+          purchaseTicketFailure(message);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        purchaseTicketFailure("An unknown error has occurred");
+      });
+  };
   return (
     <>
       <Dialog open={selectedSeatId !== null} onClose={cancelBookingProcess}>
@@ -48,7 +81,7 @@ const PurchaseModal = () => {
             </TableBody>
           </Table>
         </StyledTableContainer>
-        <form noValidate autoComplete="off">
+        <form onSubmit={e => handleFormSubmission(e)}>
           <div
             style={{
               display: "flex",
@@ -89,6 +122,7 @@ const PurchaseModal = () => {
             <Button
               variant="outlined"
               style={{ backgroundColor: "#01019d", color: "white" }}
+              type="submit"
             >
               Purchase
             </Button>
