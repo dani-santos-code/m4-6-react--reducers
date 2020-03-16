@@ -5,6 +5,7 @@ import { SeatContext } from "./SeatContext";
 import { BookingContext } from "./BookingContext";
 import seatImg from "../assets/seat-available.svg";
 import Tippy from "@tippy.js/react";
+import "tippy.js/dist/tippy.css";
 
 const StyledImg = styled.img`
   filter: ${props => (props.isBooked ? "grayscale(100%)" : "grayscale(0%)")};
